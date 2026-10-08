@@ -1,5 +1,6 @@
 import app from './app.js';
 import prisma from './config/db.js';
+import { seedDatabase } from '../prisma/seed.js';
 
 const PORT = process.env.PORT || 5000;
 
@@ -15,10 +16,18 @@ const server = app.listen(PORT, async () => {
     if (prisma) {
       await prisma.$connect();
       console.log('  [Database] Connected successfully via Prisma');
+
+      // Automatically seed if the database is brand new (0 users)
+      const userCount = await prisma.user.count();
+      if (userCount === 0) {
+        console.log('  [Database] Empty database detected. Auto-seeding initial dataset...');
+        await seedDatabase();
+        console.log('  [Database] Initial dataset successfully seeded!');
+      }
     }
   } catch (err) {
     console.warn('  [Database Notice] Could not connect to database on startup:', err.message);
-    console.warn('  Configure DATABASE_URL in backend/.env to connect to your MySQL instance.');
+    console.warn('  Configure DATABASE_URL to connect to your database instance.');
   }
 });
 
