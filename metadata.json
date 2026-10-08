@@ -1,0 +1,6 @@
+{
+  "name": "ProjectFlow Enterprise Suite",
+  "description": "Enterprise project and task management suite with real-time cross-functional synchronization between Web and Mobile applications.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
